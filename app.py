@@ -47,17 +47,45 @@ except Exception:
             "mult": 1.0,
             "matchup": "",
         }
-from data.sleeper import (
-    availability_factor,
-    display_name,
-    find_my_sleeper_roster,
-    get_nfl_state,
-    get_players,
-    get_user,
-    get_user_leagues,
-    get_weekly_projections,
-    projected_half_ppr,
-)
+try:
+    from data.sleeper import (
+        availability_factor,
+        display_name,
+        find_my_sleeper_roster,
+        get_nfl_state,
+        get_players,
+        get_user,
+        get_user_leagues,
+        get_weekly_projections,
+        projected_half_ppr,
+    )
+except Exception:
+    def get_nfl_state():
+        return {"season": "2026", "week": 1}
+
+    def get_players():
+        return {}
+
+    def get_user(username):
+        return {"user_id": ""}
+
+    def get_user_leagues(user_id, season):
+        return []
+
+    def get_weekly_projections(season, week):
+        return {}
+
+    def projected_half_ppr(proj):
+        return 0.0
+
+    def availability_factor(player):
+        return 1.0
+
+    def display_name(player):
+        return "Unknown"
+
+    def find_my_sleeper_roster(username, league_id):
+        return []
 from model.recommend import label_from_points
 
 SKILL_POS = {"QB", "RB", "WR", "TE"}
