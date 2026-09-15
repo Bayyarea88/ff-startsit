@@ -16,13 +16,37 @@ except Exception:
 
     def match_espn_to_sleeper(*args, **kwargs):
         return []
-from data.matchups import (
-    defense_vs_position,
-    load_schedule,
-    load_weekly_stats,
-    matchup_row,
-    opponent_for,
-)
+try:
+    from data.matchups import (
+        defense_vs_position,
+        load_schedule,
+        load_weekly_stats,
+        matchup_row,
+        opponent_for,
+    )
+except Exception:
+    import pandas as pd
+
+    def load_weekly_stats(years):
+        return pd.DataFrame()
+
+    def load_schedule(season):
+        return pd.DataFrame()
+
+    def defense_vs_position(weekly, season, week):
+        return pd.DataFrame()
+
+    def opponent_for(schedule, team, week):
+        return None, None
+
+    def matchup_row(dvp, defense, position):
+        return {
+            "opp": defense or "",
+            "dvp_pts": None,
+            "dvp_rank": None,
+            "mult": 1.0,
+            "matchup": "",
+        }
 from data.sleeper import (
     availability_factor,
     display_name,
