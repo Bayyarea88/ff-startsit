@@ -8,7 +8,14 @@ from collections import defaultdict
 import pandas as pd
 import streamlit as st
 
-from data.espn import load_espn_roster_names, match_espn_to_sleeper
+try:
+    from data.espn import load_espn_roster_names, match_espn_to_sleeper
+except Exception:
+    def load_espn_roster_names(*args, **kwargs):
+        raise RuntimeError("ESPN helper not installed")
+
+    def match_espn_to_sleeper(*args, **kwargs):
+        return []
 from data.matchups import (
     defense_vs_position,
     load_schedule,
